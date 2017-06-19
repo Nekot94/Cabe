@@ -6,10 +6,6 @@ public class CameraScript : MonoBehaviour
 {
     public GameObject player; 
 
-	void Start ()
-    {
-		
-	}
 	
 	void Update ()
     {

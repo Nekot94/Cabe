@@ -7,6 +7,8 @@ public class HeroScript : MonoBehaviour
     public float speed = 1f;
 
     private Rigidbody2D myBody;
+
+    public int scores = 0;
     
 
 	void Start ()
@@ -21,4 +23,15 @@ public class HeroScript : MonoBehaviour
         myBody.AddForce(new Vector2(moveHorizontal, moveVertical));
 
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Gem")
+        {
+            scores++;
+            Destroy(collision.gameObject);
+            Debug.Log(scores);
+        }
+    }
+
 }
