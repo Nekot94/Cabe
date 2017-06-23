@@ -20,9 +20,16 @@ public class GameScript : MonoBehaviour
     private void Update()
     {
         scoreText.text = "Очки: " + heroScript.scores.ToString() + "/" + maxScore.ToString();
-        if (heroScript.scores  >= maxScore)
+
+        if (heroScript.scores  >= maxScore && !heroScript.isDead)
         {
             gameOverText.text = "Ты победитель";
+            StartCoroutine(Restart());
+        }
+        if (heroScript.isDead)
+        {
+            gameOverText.text = "Ты проиграл";
+            gameOverText.color = new Color(1f, 0.2f, 0);
             StartCoroutine(Restart());
         }
         
