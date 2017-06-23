@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeroScript : MonoBehaviour
 {
-    public float speed = 1f;
+    public float speed = 10f;
 
     private Rigidbody2D myBody;
 
