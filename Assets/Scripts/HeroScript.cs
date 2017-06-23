@@ -9,6 +9,8 @@ public class HeroScript : MonoBehaviour
     private Rigidbody2D myBody;
 
     public int scores = 0;
+
+    public bool isDead = false;
     
 
 	void Start ()
