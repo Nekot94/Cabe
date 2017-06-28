@@ -24,7 +24,7 @@ public class GameScript : MonoBehaviour
         if (heroScript.scores  >= maxScore && !heroScript.isDead)
         {
             gameOverText.text = "Ты победитель";
-            StartCoroutine(Restart());
+            StartCoroutine(GoToNextLevel());
         }
         if (heroScript.isDead)
         {
@@ -39,7 +39,13 @@ public class GameScript : MonoBehaviour
     private IEnumerator Restart()
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(0);     
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);     
+    }
+
+    private IEnumerator GoToNextLevel()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 
