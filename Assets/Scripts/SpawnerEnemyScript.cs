@@ -2,50 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTeleport : MonoBehaviour
-{
+public class SpawnerEnemyScript : MonoBehaviour {
 
+    public GameObject spawnObject;
     public GameObject spawnField;
 
-    public float minTeleportTime, maxTeleportTime;
+    public int count;
+    public float spawnTime;
 
     private float offset;
     private float x, y;
     private float maxX, maxY;
 
+    public int health;
+
     void Start()
     {
         SpriteRenderer spawnFieldSprite = spawnField.GetComponent<SpriteRenderer>();
         BoxCollider2D fieldCollider = spawnField.GetComponent<BoxCollider2D>();
-        SpriteRenderer itemSprite = GetComponent<SpriteRenderer>();
+        SpriteRenderer itemSprite = spawnObject.GetComponent<SpriteRenderer>();
         offset = Mathf.Min(fieldCollider.size.x, fieldCollider.size.y) +
             Mathf.Max(itemSprite.sprite.bounds.size.x, itemSprite.sprite.bounds.size.y) / 2;
         maxX = spawnFieldSprite.sprite.bounds.size.x / 2 - offset;
         maxY = spawnFieldSprite.sprite.bounds.size.y / 2 - offset;
-
-        StartCoroutine(Teleport());
+        StartCoroutine(SpawnPerTime());
     }
 
-    public IEnumerator Teleport()
+
+    private IEnumerator SpawnPerTime()
     {
-        while (true)
+        while (true){
+            Spawn(count);
+            yield return new WaitForSeconds(spawnTime);
+        }
+    }
+
+    public void Spawn(int count)
+    {
+        for (int i = 0; i < count; i++)
         {
             x = Random.Range(-maxX, maxX);
             y = Random.Range(-maxY, maxY);
-            float randomTime = Random.Range(minTeleportTime, maxTeleportTime);
-            yield return new WaitForSeconds(randomTime);
-            transform.position = new Vector3(x, y, transform.position.z);
+
+            Instantiate(spawnObject, new Vector3(x, y, 0), Quaternion.identity);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player") 
         {
-            HeroScript heroScript = collision.gameObject.GetComponent<HeroScript>();
-            if (!heroScript.invincible)
-                heroScript.isDead = true;
+            health--;
+            if (health <= 0)
+                Destroy(gameObject);
         }
-
+        
     }
 }

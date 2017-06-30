@@ -11,6 +11,8 @@ public class HeroScript : MonoBehaviour
     public int scores = 0;
 
     public bool isDead = false;
+
+    public bool invincible = false;
     
 
 	void Start ()
@@ -34,6 +36,22 @@ public class HeroScript : MonoBehaviour
             Destroy(collision.gameObject);
             Debug.Log(scores);
         }
+    }
+
+    public void MakeInvincible(float time)
+    {
+        StartCoroutine(StartInvincible(time));
+    }
+
+    private IEnumerator StartInvincible(float time)
+    {
+        invincible = true;
+        GetComponent<SpriteRenderer>().material.color = Color.green;
+
+        yield return new WaitForSeconds(time);
+        invincible = false;
+        GetComponent<SpriteRenderer>().material.color = Color.white;
+
     }
 
 }
