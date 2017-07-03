@@ -53,5 +53,19 @@ public class HeroScript : MonoBehaviour
         GetComponent<SpriteRenderer>().material.color = Color.white;
 
     }
+    public void FreezeMe(float time, float power)
+    {
+        StartCoroutine(Freezing(time, power));
+    }
+
+    private IEnumerator Freezing(float time, float power)
+    { 
+        speed *= power / 100;
+        GetComponent<SpriteRenderer>().material.color = Color.blue;
+        yield return new WaitForSeconds(time);
+        speed /= power / 100;
+        GetComponent<SpriteRenderer>().material.color = Color.white;
+
+    }
 
 }
